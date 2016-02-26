@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.logging.Handler;
+
 public class MainActivity extends AppCompatActivity {
 
     //Explicit
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private Criteria criteria;
     private boolean GPSABoolean, networkABoolean;
-
+    private int timeAnInt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,28 @@ public class MainActivity extends AppCompatActivity {
 
         //setup Location
         setupLocation();
+        //autodate
+        autoUpdate();
 
     } //Main method
+
+    private void autoUpdate() {
+
+        timeAnInt += 1;
+        Log.d("Test", "Time ==> " + timeAnInt);
+        MyLoop();
+
+    }// autoupdate
+
+    private void MyLoop() {
+        android.os.Handler handler = new android.os.Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               autoUpdate();
+            }
+        }, 1000); // minli second
+    }
 
     @Override
     protected void onResume() {
